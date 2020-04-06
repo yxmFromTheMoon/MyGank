@@ -1,11 +1,7 @@
 package com.yxm.mygank.controller.fragments;
 
-import android.text.TextUtils;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.gyf.immersionbar.BarHide;
-import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseFragment;
@@ -74,8 +70,6 @@ public class GirlFragment extends BaseFragment implements ContentModel.OnGetCont
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> mModel.loadMore(Constants.GIRL, Constants.GIRL));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            HideBottomViewEvent event = new HideBottomViewEvent(true);
-
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -83,6 +77,7 @@ public class GirlFragment extends BaseFragment implements ContentModel.OnGetCont
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                HideBottomViewEvent event = new HideBottomViewEvent(true);
                 //上滑
                 if (dy > 0) {
                     event.setHide(true);
@@ -112,19 +107,20 @@ public class GirlFragment extends BaseFragment implements ContentModel.OnGetCont
 
     @Override
     public void onGetContentSuccess(List<ContentBean> data) {
-        mAdapter.setNewData(data);
         mRefreshLayout.finishRefresh();
+        mAdapter.setNewData(data);
     }
 
     @Override
     public void onGetContentFailure(String content) {
         showToast(content + "获取图片失败");
         mRefreshLayout.finishRefresh();
+        mRefreshLayout.finishLoadMore();
     }
 
     @Override
     public void onLoadMore(List<ContentBean> data) {
-        mAdapter.addData(data);
         mRefreshLayout.finishLoadMore();
+        mAdapter.addData(data);
     }
 }

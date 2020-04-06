@@ -15,7 +15,7 @@ import androidx.annotation.LayoutRes;
 /**
  * Created by yxm on 2020/4/6
  *
- * @function
+ * @function 图片adapter
  */
 public class PictureAdapter extends BaseQuickAdapter<ContentBean, BaseViewHolder> {
 
