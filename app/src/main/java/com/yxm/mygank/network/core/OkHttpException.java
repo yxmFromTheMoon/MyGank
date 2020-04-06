@@ -11,6 +11,11 @@ public class OkHttpException extends Exception {
     //错误码
     private int errorCode;
 
+    public OkHttpException(String description,int errorCode){
+        this.description = description;
+        this.errorCode = errorCode;
+    }
+
     public int getErrorCode() {
         return errorCode;
     }

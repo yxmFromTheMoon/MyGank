@@ -2,8 +2,10 @@ package com.yxm.mygank.network.core;
 
 import com.yxm.mygank.network.constants.Constants;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -35,6 +37,7 @@ public class RetrofitManager {
                 .sslSocketFactory(HttpsUtils.initSSLSocketFactory(),//访问https
                         HttpsUtils.initTrustManager());
         OkHttpClient mOkHttpClient = builder.build();
+        //创建retrofit
         Retrofit mRetrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .client(mOkHttpClient)
