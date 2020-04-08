@@ -6,10 +6,13 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseFragment;
 import com.yxm.mygank.common.event.HideBottomViewEvent;
 import com.yxm.mygank.common.event.RepeatTabEvent;
+import com.yxm.mygank.controller.activity.BigPictureActivity;
+import com.yxm.mygank.controller.activity.GanHuoDetailActivity;
 import com.yxm.mygank.controller.adapter.CategoriesAdapter;
 import com.yxm.mygank.imageloader.ImageLoaderManager;
 import com.yxm.mygank.model.BannerModel;
@@ -37,7 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  * @function 干货fragment
  */
-public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGetCategoriesListener,BannerModel.BannerListener {
+public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGetCategoriesListener, BannerModel.BannerListener {
 
     /**
      * UI
@@ -76,7 +79,9 @@ public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGe
     @Override
     public void initListener() {
         mRefreshLayout.setEnableLoadMore(false);
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> mModel.getCategories());
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            lazyLoad();
+        });
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -100,10 +105,18 @@ public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGe
             }
         });
 
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.picture) {
+                GanHuoDetailActivity.start(mContext, (CategoryBean) adapter.getItem(position),
+                        (ImageView) adapter.getViewByPosition(mRecyclerView, position, R.id.picture));
+            }
+        });
+
     }
 
     @Override
     public void lazyLoad() {
+        showLoading();
         mBannerModel.getBanners();
         mModel.getCategories();
     }
@@ -118,12 +131,14 @@ public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGe
 
     @Override
     public void onGetCategories(List<CategoryBean> data) {
+        disLoading();
         mRefreshLayout.finishRefresh();
         mAdapter.setNewData(data);
     }
 
     @Override
     public void onGetCategoriesFailure(String content) {
+        disLoading();
         mRefreshLayout.finishRefresh();
         showToast(content + "获取目录失败");
     }
@@ -141,7 +156,7 @@ public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGe
                 .setScrollDuration(1000)
                 .setHolderCreator(MyBannerViewHolder::new)
                 .setOnPageClickListener(position -> {
-                    showToast("" + position);
+                    BigPictureActivity.start(mContext, data.get(position).getImage());
                 }).create(data);
     }
 
@@ -163,11 +178,13 @@ public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGe
 
     @Override
     public void setBanner(List<BannerBean> data) {
+        disLoading();
         initBannerPager(data);
     }
 
     @Override
     public void onBannerFailure(String des) {
+        disLoading();
         showToast(des + "获取banner失败");
     }
 

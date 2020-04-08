@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yxm.mygank.common.view.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,11 +25,13 @@ public abstract class BaseFragment extends Fragment {
     protected Context mContext;
     protected String TAG = getClass().getSimpleName();
     private boolean isFirstLoad = true;
+    protected LoadingDialog dialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+        dialog = new LoadingDialog(mContext);
     }
 
     @Nullable
@@ -72,6 +74,14 @@ public abstract class BaseFragment extends Fragment {
 
     protected void showToast(String msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showLoading(){
+        dialog.show();
+    }
+
+    protected void disLoading(){
+        dialog.dismiss();
     }
 
     @NonNull

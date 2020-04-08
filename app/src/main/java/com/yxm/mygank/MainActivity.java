@@ -1,5 +1,6 @@
 package com.yxm.mygank;
 
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.gyf.immersionbar.ImmersionBar;
@@ -34,6 +35,7 @@ public class MainActivity extends BaseActivity {
     private NavigationController mController;
     private ViewPager2 mViewPager;
     private ArrayList<BaseFragment> fragments = new ArrayList<>();
+    private long currentTime = 0;
 
 
     @Override
@@ -96,11 +98,26 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void hideBottomView(HideBottomViewEvent event){
-        if(event.isHide()){
+    public void hideBottomView(HideBottomViewEvent event) {
+        if (event.isHide()) {
             mController.hideBottomLayout();
-        }else {
+        } else {
             mController.showBottomLayout();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            long lastTime = System.currentTimeMillis();
+            if (lastTime - currentTime > 2000) {
+                showToast("再按一次退出程序");
+                currentTime = lastTime;
+            }else {
+                super.onKeyDown(keyCode, event);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

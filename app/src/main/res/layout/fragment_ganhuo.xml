@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smart.refresh.layout.SmartRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.zhpan.bannerview.BannerViewPager
-        android:id="@+id/banner"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp" />
+        android:layout_height="match_parent">
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/banner"
-        android:layout_marginTop="5dp">
+        <com.zhpan.bannerview.BannerViewPager
+            android:id="@+id/banner"
+            android:background="@mipmap/placeholderwhite"
+            android:layout_width="match_parent"
+            android:layout_height="220dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categories_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
-
-</RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/banner"
+            android:layout_marginTop="5dp" />
+    </RelativeLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

@@ -27,6 +27,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".controller.activity.WebViewActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.activity.GanHuoDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.activity.BigPictureActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.4" />

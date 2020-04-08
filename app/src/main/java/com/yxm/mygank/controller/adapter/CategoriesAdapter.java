@@ -1,5 +1,7 @@
 package com.yxm.mygank.controller.adapter;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -7,12 +9,15 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.yxm.mygank.MainActivity;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.util.ScreenHelper;
+import com.yxm.mygank.controller.activity.GanHuoDetailActivity;
 import com.yxm.mygank.imageloader.ImageLoaderManager;
 import com.yxm.mygank.model.bean.CategoryBean;
 
 import androidx.annotation.LayoutRes;
+import androidx.core.util.Pair;
 
 /**
  * Created by yxm on 2020/4/6

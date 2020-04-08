@@ -21,7 +21,7 @@ public class CategoriesModel extends RetrofitCallback<List<CategoryBean>> {
     }
 
     public void getCategories() {
-        RetrofitManager.Api().getCategorie(Constants.GANHUO).enqueue(this);
+        RetrofitManager.Api().getCategories(Constants.GANHUO).enqueue(this);
     }
 
     @Override

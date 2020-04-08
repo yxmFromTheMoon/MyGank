@@ -1,12 +1,15 @@
 package com.yxm.mygank.controller.fragments;
 
 import android.view.View;
+import android.widget.ImageView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseFragment;
 import com.yxm.mygank.common.event.HideBottomViewEvent;
 import com.yxm.mygank.common.event.RepeatTabEvent;
+import com.yxm.mygank.controller.activity.BigPictureActivity;
 import com.yxm.mygank.controller.adapter.PictureAdapter;
 import com.yxm.mygank.model.ContentModel;
 import com.yxm.mygank.model.bean.ContentBean;
@@ -60,7 +63,7 @@ public class GirlFragment extends BaseFragment implements ContentModel.OnGetCont
             ContentBean item = (ContentBean) adapter.getItem(position);
             if (item != null) {
                 if (view.getId() == R.id.picture) {
-                    showToast("url" + item.getUrl());
+                    BigPictureActivity.start(mContext, item.getUrl());
                 }
             }
         });
@@ -94,6 +97,7 @@ public class GirlFragment extends BaseFragment implements ContentModel.OnGetCont
 
     @Override
     public void lazyLoad() {
+        showLoading();
         mModel.getContent(Constants.GIRL, Constants.GIRL);
     }
 
@@ -107,12 +111,14 @@ public class GirlFragment extends BaseFragment implements ContentModel.OnGetCont
 
     @Override
     public void onGetContentSuccess(List<ContentBean> data) {
+        disLoading();
         mRefreshLayout.finishRefresh();
         mAdapter.setNewData(data);
     }
 
     @Override
     public void onGetContentFailure(String content) {
+        disLoading();
         showToast(content + "获取图片失败");
         mRefreshLayout.finishRefresh();
         mRefreshLayout.finishLoadMore();

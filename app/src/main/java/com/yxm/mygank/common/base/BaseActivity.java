@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yxm.mygank.common.view.LoadingDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected String TAG = getClass().getSimpleName();
 
+    protected LoadingDialog dialog;
+
     public abstract int getLayoutId();
 
     public abstract void initView();
@@ -39,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setContentView(getLayoutId());
         }
         mContext = this;
+        dialog = new LoadingDialog(mContext);
         initDataBeforeView();
         initView();
         initListener();
@@ -50,6 +54,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void initDataBeforeView(){}
+
+    protected void showLoading(){
+         dialog.show();
+    }
+
+    protected void disLoading(){
+        dialog.dismiss();
+    }
 
     @Override
     protected void onDestroy() {

@@ -1,6 +1,8 @@
 package com.yxm.mygank.controller.fragments;
 
 import android.view.View;
+
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseFragment;
 import com.yxm.mygank.common.event.RepeatTabEvent;
