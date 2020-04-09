@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_alignParentBottom="true"
-            android:background="@android:color/white" />
-
+            android:background="@android:color/white"
+            android:elevation="10dp" />
     </RelativeLayout>
 
     <include layout="@layout/drawer_layout" />

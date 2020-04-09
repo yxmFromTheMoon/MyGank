@@ -21,7 +21,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
@@ -34,7 +33,7 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
  * 三个模块 干货、文章、妹纸
  */
 
-public class MainActivity extends BaseActivity implements DrawerLayout.DrawerListener {
+public class MainActivity extends BaseActivity {
 
     private PageNavigationView mNavigationView;
     private NavigationController mController;
@@ -91,7 +90,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @Override
     public void initListener() {
-        mDrawerLayout.addDrawerListener(this);
 
         mController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
             @Override
@@ -152,12 +150,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -174,25 +166,5 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-    }
-
-    @Override
-    public void onDrawerOpened(@NonNull View drawerView) {
-
-    }
-
-    @Override
-    public void onDrawerClosed(@NonNull View drawerView) {
-
-    }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
     }
 }

@@ -1,14 +1,13 @@
 package com.yxm.mygank.controller.fragments;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.wang.avi.AVLoadingIndicatorView;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseFragment;
 import com.yxm.mygank.common.event.RepeatTabEvent;
+import com.yxm.mygank.common.util.ScaleInTransformer;
 import com.yxm.mygank.controller.adapter.ViewPagerAdapter;
 import com.yxm.mygank.model.CategoriesModel;
 import com.yxm.mygank.model.bean.CategoryBean;
@@ -20,8 +19,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 /**
@@ -58,6 +58,10 @@ public class ArticleFragment extends BaseFragment implements CategoriesModel.OnG
         mViewpager2.setUserInputEnabled(true);
         mViewpager2.setOffscreenPageLimit(1);
         mTabLayout = view.findViewById(R.id.tabLayout);
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        //compositePageTransformer.addTransformer(new ScaleInTransformer());
+        //compositePageTransformer.addTransformer(new MarginPageTransformer(100));
+        mViewpager2.setPageTransformer(compositePageTransformer);
     }
 
     @Override

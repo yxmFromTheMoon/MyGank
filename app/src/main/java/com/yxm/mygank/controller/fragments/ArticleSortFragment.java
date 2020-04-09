@@ -42,7 +42,6 @@ public class ArticleSortFragment extends BaseFragment implements ContentModel.On
      */
     private ContentModel mModel = new ContentModel(this);
     private CommonArticleAdapter articleAdapter;
-
     private String mType;
 
     static ArticleSortFragment newInstance(String type) {
