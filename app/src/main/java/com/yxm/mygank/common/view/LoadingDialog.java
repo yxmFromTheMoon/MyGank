@@ -11,7 +11,7 @@ import androidx.annotation.ColorInt;
 /**
  * Created by yxm on 2020/4/8
  *
- * @function
+ * @function 加载中dialog
  */
 public class LoadingDialog extends Dialog {
 
@@ -41,5 +41,21 @@ public class LoadingDialog extends Dialog {
      */
     public void setLoadingStyle(String style){
         mLoadingView.setIndicator(style);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if(mLoadingView != null){
+            mLoadingView.smoothToShow();
+        }
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        if(mLoadingView != null){
+            mLoadingView.smoothToHide();
+        }
     }
 }

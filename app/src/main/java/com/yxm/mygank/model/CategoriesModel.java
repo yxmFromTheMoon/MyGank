@@ -20,8 +20,8 @@ public class CategoriesModel extends RetrofitCallback<List<CategoryBean>> {
         this.mListener = listener;
     }
 
-    public void getCategories() {
-        RetrofitManager.Api().getCategories(Constants.GANHUO).enqueue(this);
+    public void getCategories(String category) {
+        RetrofitManager.Api().getCategories(category).enqueue(this);
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.yxm.mygank.model.BannerModel;
 import com.yxm.mygank.model.CategoriesModel;
 import com.yxm.mygank.model.bean.BannerBean;
 import com.yxm.mygank.model.bean.CategoryBean;
+import com.yxm.mygank.network.constants.Constants;
 import com.zhpan.bannerview.BannerViewPager;
 import com.zhpan.bannerview.constants.IndicatorGravity;
 import com.zhpan.bannerview.constants.PageStyle;
@@ -118,7 +119,7 @@ public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGe
     public void lazyLoad() {
         showLoading();
         mBannerModel.getBanners();
-        mModel.getCategories();
+        mModel.getCategories(Constants.GANHUO);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

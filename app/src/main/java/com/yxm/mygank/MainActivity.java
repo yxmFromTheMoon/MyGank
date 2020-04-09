@@ -2,12 +2,14 @@ package com.yxm.mygank;
 
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.yxm.mygank.common.base.BaseActivity;
 import com.yxm.mygank.common.base.BaseFragment;
 import com.yxm.mygank.common.event.HideBottomViewEvent;
 import com.yxm.mygank.common.event.RepeatTabEvent;
+import com.yxm.mygank.controller.activity.WebViewActivity;
 import com.yxm.mygank.controller.adapter.ViewPagerAdapter;
 import com.yxm.mygank.controller.fragments.ArticleFragment;
 import com.yxm.mygank.controller.fragments.GanHuoFragment;
@@ -19,6 +21,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
@@ -29,11 +34,19 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
  * 三个模块 干货、文章、妹纸
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements DrawerLayout.DrawerListener {
 
     private PageNavigationView mNavigationView;
     private NavigationController mController;
     private ViewPager2 mViewPager;
+    private DrawerLayout mDrawerLayout;
+    private TextView mGitHub;
+    private TextView mBlog;
+    private TextView appVersion;
+    private TextView moreInfo;
+    private TextView email;
+
+
     private ArrayList<BaseFragment> fragments = new ArrayList<>();
     private long currentTime = 0;
 
@@ -52,6 +65,12 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         mNavigationView = findViewById(R.id.navigation_view);
         mViewPager = findViewById(R.id.main_vp2);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mGitHub = findViewById(R.id.github);
+        mBlog = findViewById(R.id.blog);
+        moreInfo = findViewById(R.id.more_info);
+        appVersion = findViewById(R.id.version);
+        email = findViewById(R.id.email);
 
         mController = mNavigationView.material()
                 .addItem(R.mipmap.home_ganhuo_unselected,
@@ -72,9 +91,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initListener() {
+        mDrawerLayout.addDrawerListener(this);
+
         mController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
             @Override
             public void onSelected(int index, int old) {
+                if (index == 0) {
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                    }
+                } else {
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                }
                 mViewPager.setCurrentItem(index);
             }
 
@@ -84,11 +113,27 @@ public class MainActivity extends BaseActivity {
                 EventBus.getDefault().post(event);
             }
         });
+
+        mGitHub.setOnClickListener(view ->
+                WebViewActivity.start(mContext, "https://github.com/yxmFromTheMoon/MyGank", "MyGank")
+        );
+
+        mBlog.setOnClickListener(view ->
+                WebViewActivity.start(mContext, "https://blog.csdn.net/qq_37029648", "我的博客")
+        );
+
+        email.setOnClickListener(view ->
+                showToast("去GitHub看看吧")
+        );
+
+        moreInfo.setOnClickListener(view ->
+                showToast("去博客看看吧")
+        );
     }
 
     @Override
     public void initData() {
-
+        appVersion.setText("当前版本：" + BuildConfig.VERSION_NAME);
     }
 
     @Override
@@ -107,17 +152,47 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            long lastTime = System.currentTimeMillis();
-            if (lastTime - currentTime > 2000) {
-                showToast("再按一次退出程序");
-                currentTime = lastTime;
-            }else {
-                super.onKeyDown(keyCode, event);
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                long lastTime = System.currentTimeMillis();
+                if (lastTime - currentTime > 2000) {
+                    showToast("再按一次退出程序");
+                    currentTime = lastTime;
+                } else {
+                    super.onKeyDown(keyCode, event);
+                }
             }
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(@NonNull View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 }
