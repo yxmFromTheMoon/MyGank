@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.yxm.mygank.common.MyApplication;
 import com.yxm.mygank.imageloader.GlideApp;
 
 import java.io.File;
