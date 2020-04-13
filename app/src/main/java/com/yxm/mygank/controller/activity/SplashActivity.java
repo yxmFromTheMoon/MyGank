@@ -45,6 +45,11 @@ public class SplashActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     static class MyHandler extends Handler{
         private final WeakReference<SplashActivity> mActivity;
 
@@ -64,4 +69,5 @@ public class SplashActivity extends BaseActivity {
             }
         }
     }
+
 }
