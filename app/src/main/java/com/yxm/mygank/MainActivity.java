@@ -1,7 +1,6 @@
 package com.yxm.mygank;
 
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
@@ -14,6 +13,7 @@ import com.yxm.mygank.controller.adapter.ViewPagerAdapter;
 import com.yxm.mygank.controller.fragments.ArticleFragment;
 import com.yxm.mygank.controller.fragments.GanHuoFragment;
 import com.yxm.mygank.controller.fragments.GirlFragment;
+import com.yxm.mygank.imageloader.ImageLoaderManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity {
     private TextView appVersion;
     private TextView moreInfo;
     private TextView email;
+    private TextView clearCache;
 
 
     private ArrayList<BaseFragment> fragments = new ArrayList<>();
@@ -70,6 +71,7 @@ public class MainActivity extends BaseActivity {
         moreInfo = findViewById(R.id.more_info);
         appVersion = findViewById(R.id.version);
         email = findViewById(R.id.email);
+        clearCache = findViewById(R.id.clear_cache);
 
         mController = mNavigationView.material()
                 .addItem(R.mipmap.home_ganhuo_unselected,
@@ -127,6 +129,10 @@ public class MainActivity extends BaseActivity {
         moreInfo.setOnClickListener(view ->
                 showToast("去博客看看吧")
         );
+        clearCache.setOnClickListener(view -> {
+            ImageLoaderManager.getInstance().clearAllCache(mContext);
+            showToast("清除缓存成功");
+        });
     }
 
     @Override

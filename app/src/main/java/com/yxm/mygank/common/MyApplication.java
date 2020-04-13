@@ -9,6 +9,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
+import com.yxm.mygank.common.util.FileHelper;
 import com.yxm.mygank.network.core.RetrofitManager;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class MyApplication extends Application {
         super.onCreate();
         mInstance = this;
         RetrofitManager.getInstance().initRetrofit();
+        FileHelper.getInstance().init(mInstance);
     }
 
     public static MyApplication getInstance() {

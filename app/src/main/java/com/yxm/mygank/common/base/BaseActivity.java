@@ -3,8 +3,6 @@ package com.yxm.mygank.common.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
-
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yxm.mygank.common.view.LoadingDialog;
 
 import androidx.annotation.NonNull;
@@ -18,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
  * @function baseActivity
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
-    protected RxPermissions rxPermissions = new RxPermissions(this);
 
     protected Context mContext;
 
@@ -61,11 +57,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void disLoading(){
         dialog.dismiss();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @NonNull

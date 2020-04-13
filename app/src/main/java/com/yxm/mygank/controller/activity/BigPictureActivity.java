@@ -7,10 +7,15 @@ import android.view.View;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.gyf.immersionbar.ImmersionBar;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yxm.mygank.MainActivity;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseActivity;
+import com.yxm.mygank.common.view.SavePictureDialog;
 import com.yxm.mygank.imageloader.ImageLoaderManager;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by yxm on 2020/4/8
@@ -23,6 +28,8 @@ public class BigPictureActivity extends BaseActivity {
     private String mUrl;
 
     private PhotoView mPhotoView;
+
+    private RxPermissions permissions = new RxPermissions(this);
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, BigPictureActivity.class);
@@ -49,7 +56,14 @@ public class BigPictureActivity extends BaseActivity {
     @Override
     public void initListener() {
         mPhotoView.setOnLongClickListener(v -> {
-            showToast("长按");
+            Disposable disposable = permissions.request("android.permission.WRITE_EXTERNAL_STORAGE")
+                    .subscribe(aBoolean -> {
+                                if (aBoolean) {
+                                    new SavePictureDialog(mContext, mUrl).show();
+                                }
+                            }
+                    );
+            disposable.dispose();
             return true;
         });
     }

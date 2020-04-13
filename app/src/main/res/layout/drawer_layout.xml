@@ -73,6 +73,13 @@
             android:text="GitHub" />
 
         <TextView
+            android:id="@+id/clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="清除缓存" />
+
+        <TextView
             android:id="@+id/more_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
