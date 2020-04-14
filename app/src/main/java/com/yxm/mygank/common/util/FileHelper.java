@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
@@ -53,7 +54,12 @@ public class FileHelper {
      * @param bitmap
      */
     private void saveImageToGallery(Bitmap bitmap) {
-        File fileDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File fileDir;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            fileDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        } else {
+            fileDir = new File(Environment.getExternalStorageDirectory(), "MyGank");
+        }
         if (!fileDir.exists()) {
             fileDir.mkdir();
         }
