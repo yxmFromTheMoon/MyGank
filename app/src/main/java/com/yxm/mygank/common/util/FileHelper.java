@@ -1,8 +1,8 @@
 package com.yxm.mygank.common.util;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -11,17 +11,17 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.yxm.mygank.imageloader.GlideApp;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import static android.os.Environment.DIRECTORY_PICTURES;
 
 /**
  * Created by yxm on 2020/4/13
@@ -49,38 +49,30 @@ public class FileHelper {
     }
 
     /**
-     * 保存图片
+     * 适配Android10作用域存储
      *
      * @param bitmap
      */
-    private void saveImageToGallery(Bitmap bitmap) {
-        File fileDir;
+    private void addBitmapToAlbum(Bitmap bitmap) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis() + ".jpg");
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            fileDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, DIRECTORY_PICTURES);
         } else {
-            fileDir = new File(Environment.getExternalStorageDirectory(), "MyGank");
+            contentValues.put(MediaStore.MediaColumns.DATA, Environment.getExternalStorageDirectory().getPath() + "/" + DIRECTORY_PICTURES + "/" + System.currentTimeMillis() + ".jpg");
         }
-        if (!fileDir.exists()) {
-            fileDir.mkdir();
+        Uri uri = mContext.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        if (uri != null) {
+            try (OutputStream outputStream = mContext.getContentResolver().openOutputStream(uri)) {
+                if (outputStream != null) {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(fileDir, fileName);
-        try (FileOutputStream outputStream = new FileOutputStream(file)) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            MediaStore.Images.Media.insertImage(mContext.getContentResolver(),
-                    file.getAbsolutePath(), fileName, null);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        //通知图库更新
-        Uri uri = Uri.fromFile(file);
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        intent.setData(uri);
-        mContext.sendBroadcast(intent);
         Toast.makeText(mContext, "保存成功", Toast.LENGTH_SHORT).show();
     }
 
@@ -97,7 +89,7 @@ public class FileHelper {
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        saveImageToGallery(resource);
+                        addBitmapToAlbum(resource);
                     }
 
                     @Override
