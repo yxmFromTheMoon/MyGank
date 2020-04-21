@@ -21,7 +21,7 @@
         tools:ignore="LockedOrientationActivity">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".controller.activity.MainActivity"
             android:launchMode="singleTask"/>
 
         <activity

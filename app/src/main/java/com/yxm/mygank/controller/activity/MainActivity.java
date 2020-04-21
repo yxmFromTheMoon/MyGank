@@ -1,9 +1,11 @@
-package com.yxm.mygank;
+package com.yxm.mygank.controller.activity;
 
 import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
+import com.yxm.mygank.BuildConfig;
+import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseActivity;
 import com.yxm.mygank.common.base.BaseFragment;
 import com.yxm.mygank.common.event.HideBottomViewEvent;

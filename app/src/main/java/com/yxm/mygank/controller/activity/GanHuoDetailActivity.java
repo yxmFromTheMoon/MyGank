@@ -1,6 +1,5 @@
 package com.yxm.mygank.controller.activity;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +9,7 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.immersionbar.ImmersionBar;
-import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.yxm.mygank.MainActivity;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseActivity;
 import com.yxm.mygank.common.util.AppBarStateChangeListener;
@@ -28,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
-import com.yxm.mygank.MainActivity;
 import com.yxm.mygank.R;
 import com.yxm.mygank.common.base.BaseActivity;
 
