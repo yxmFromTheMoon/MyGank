@@ -64,4 +64,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     public String toString() {
         return TAG;
     }
+
 }
