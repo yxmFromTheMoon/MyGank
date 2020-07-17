@@ -59,6 +59,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         dialog.dismiss();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     @NonNull
     @Override
     public String toString() {
