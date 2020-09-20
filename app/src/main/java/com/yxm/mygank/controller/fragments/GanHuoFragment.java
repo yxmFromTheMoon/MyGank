@@ -190,7 +190,7 @@ public class GanHuoFragment extends BaseFragment implements CategoriesModel.OnGe
     }
 
     //banner viewHolder
-    private class MyBannerViewHolder implements ViewHolder<BannerBean> {
+    private static class MyBannerViewHolder implements ViewHolder<BannerBean> {
 
         @Override
         public int getLayoutId() {
