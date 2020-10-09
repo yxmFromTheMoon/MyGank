@@ -1,9 +1,7 @@
 package com.yxm.mygank.controller.activity
 
-import android.util.Log
-import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.yxm.mygank.R
 import com.yxm.mygank.common.base.BaseActivity
 import com.yxm.mygank.model.viewmodel.ArticleListViewModel
@@ -31,13 +29,12 @@ class TestActivity : BaseActivity() {
         test_tv.setOnClickListener {
             viewModel.getArticleList(Constants.GANHUO, "Android")
         }
-        viewModel.articleLiveData.observe(this, {
-            val list = it.getOrNull()
-            Log.d("test_data", "${viewModel.mPage}")
+        viewModel.articleLiveData.observe(this) { result ->
+            val list = result.getOrNull()
             list?.let {
                 viewModel.articleList.addAll(it)
             }
-        })
+        }
     }
 
     override fun initListener() {

@@ -25,7 +25,7 @@ object Repository {
                 Result.failure(RuntimeException("列表为空"))
             }
         } catch (e: Exception) {
-            Result.failure(e)
+           Result.failure(e)
         }
         emit(result)
     }
